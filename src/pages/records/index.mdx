@@ -1,0 +1,100 @@
+---
+title: Records
+description:
+  The two documents every student in this course keeps — the opening record
+  filed in the first session, and the position log kept from then on.
+---
+
+# Records
+
+Two documents. You fill the first one once and never change it. You add to the
+second one every time you do anything.
+
+Both are assessed, and both are read back to you in later weeks, so write them
+for a reader who is not you.
+
+## The opening record
+
+Filed in the first session, before you open anything. Four questions. Answer
+them in the order they appear and do not revise them afterwards — a later
+revision destroys the only thing this document is for.
+
+**1. What are you buying, and how much of your account goes into it?**
+
+Name the instrument and give the position as a percentage of your account
+balance. If you are opening more than one position, list each with its
+percentage.
+
+**2. Why this one? One sentence.**
+
+Not a paragraph. One sentence, in your own words, in the form "I am buying it
+because ___". Whatever you write here is what you actually knew at the time,
+which is the reason you are writing it before you buy rather than after.
+
+**3. How many positions do you hold, and what do they have in common?**
+
+If the answer to the second half is "nothing", write "nothing". If two of them
+sell the same thing, or serve the same customers, or rise and fall with the same
+input, say so.
+
+**4. What would make you close it?**
+
+A price, a date, a condition, or the word "nothing". "Nothing" is an acceptable
+answer and a common one. It is not a wrong answer in week 1.
+
+File it, and do not look at it again until you are asked to.
+
+## The position log
+
+One row per action, added on the day of the action. An action is opening,
+adding, reducing, closing, or a fee being charged. Not a thought — an action.
+
+Every row carries:
+
+| Field | What goes in it |
+| --- | --- |
+| Date | The day the action happened |
+| Action | open / add / reduce / close / fee |
+| Instrument | What it was |
+| Units | How many |
+| Price | The price you actually transacted at, not the last price you saw |
+| Side of the quote | Whether you paid the ask or received the bid |
+| Fee | In dollars, including anything the platform calls something else |
+| Account after | Your balance once this action settled |
+
+The fifth and sixth fields are the ones people leave out, and they are the ones
+week 2 is about. If you record "bought at $40" when the quote was $39.96 bid and
+$40.00 ask, you have thrown away the cost you paid to get in, and it is the only
+cost in this course you are guaranteed to pay.
+
+### The counterfactual column
+
+From week 4 onwards the log carries one more column, and it has to be filled in
+**on the day of the action, not afterwards**:
+
+> **If I do nothing today, what happens?**
+
+Write the position you would still be holding and what it is worth right now.
+That is all. You are not predicting anything; you are recording the thing you
+chose against, at the moment you chose against it, at a price you can check.
+
+Filled in on the day, this column is evidence. Filled in later, it is a story
+about yourself, and everyone tells themselves a flattering one. In week 12 you
+will be asked to total it.
+
+## Arithmetic
+
+Every number in an assessment has to be reproducible from numbers you also
+supply. "The position lost about a fifth of its value" is not a finding. This
+is:
+
+```
+open:   250 units at $40.00 ask   = $10,000.00
+fee                               =      $5.00
+close:  250 units at $39.96 bid   =  $9,990.00
+fee                               =      $5.00
+round trip                        =     $20.00  (0.20% of $10,000)
+```
+
+Four lines and a subtraction. Do that, every time, and the week 12 account
+writes itself.
