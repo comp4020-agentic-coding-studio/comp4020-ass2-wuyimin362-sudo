@@ -1,0 +1,390 @@
+---
+interface Props {
+  title?: string;
+  headingLevel?: "h2" | "h3";
+}
+
+const { title = "Run it yourself", headingLevel = "h2" } = Astro.props;
+const Heading = headingLevel;
+const uid = `ruin-${Math.random().toString(36).slice(2, 8)}`;
+---
+
+<section class="ruin" aria-labelledby={`${uid}-title`} data-ruin-sim>
+  <Heading id={`${uid}-title`}>{title}</Heading>
+
+  <p class="ruin-lede">
+    Every number below is simulated in your browser from the three inputs. The
+    theoretical column is the arithmetic from the lecture, so the two should
+    converge as you simulate more players.
+  </p>
+
+  <div class="ruin-controls">
+    <div class="ruin-control">
+      <label for={`${uid}-rounds`}>How many times you take the bet</label>
+      <input
+        type="range"
+        id={`${uid}-rounds`}
+        data-input="rounds"
+        min="1"
+        max="100"
+        step="1"
+        value="40"
+      />
+      <output data-out="rounds" for={`${uid}-rounds`}>40</output>
+    </div>
+
+    <div class="ruin-control">
+      <label for={`${uid}-odds`}>Chance of total loss, as 1 in N</label>
+      <input
+        type="range"
+        id={`${uid}-odds`}
+        data-input="odds"
+        min="4"
+        max="100"
+        step="1"
+        value="20"
+      />
+      <output data-out="odds" for={`${uid}-odds`}>1 in 20 (5.00%)</output>
+    </div>
+
+    <div class="ruin-control">
+      <label for={`${uid}-gain`}>What it pays the other times</label>
+      <input
+        type="range"
+        id={`${uid}-gain`}
+        data-input="gain"
+        min="0"
+        max="50"
+        step="1"
+        value="10"
+      />
+      <output data-out="gain" for={`${uid}-gain`}>+10%</output>
+    </div>
+  </div>
+
+  <div class="ruin-buttons">
+    <button type="button" data-run="1">Run 1 player</button>
+    <button type="button" data-run="100">Run 100</button>
+    <button type="button" data-run="10000">Run 10,000</button>
+  </div>
+
+  <div class="ruin-strip" data-strip aria-hidden="true"></div>
+
+  <div class="ruin-results" data-results aria-live="polite">
+    <p class="ruin-empty" data-empty>No players simulated yet.</p>
+
+    <table data-table hidden>
+      <caption data-caption></caption>
+      <thead>
+        <tr>
+          <th scope="col">Measure</th>
+          <th scope="col">Simulated</th>
+          <th scope="col">Theory</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th scope="row">Still holding anything</th>
+          <td data-cell="survived-sim"></td>
+          <td data-cell="survived-theory"></td>
+        </tr>
+        <tr>
+          <th scope="row">Wiped out</th>
+          <td data-cell="wiped-sim"></td>
+          <td data-cell="wiped-theory"></td>
+        </tr>
+        <tr>
+          <th scope="row">What each survivor holds</th>
+          <td data-cell="survivor-sim"></td>
+          <td data-cell="survivor-theory"></td>
+        </tr>
+        <tr>
+          <th scope="row">Average across every player</th>
+          <td data-cell="mean-sim"></td>
+          <td data-cell="mean-theory"></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p class="ruin-note" data-note></p>
+  </div>
+</section>
+
+<style>
+  .ruin {
+    margin-block: 2rem;
+    padding: 1.25rem;
+    border: 1px solid currentColor;
+    border-radius: 0.5rem;
+    background: var(--at-bg-alt, rgba(127, 127, 127, 0.08));
+  }
+
+  .ruin-lede {
+    margin-block-start: 0;
+    color: var(--at-text-secondary, inherit);
+    font-size: 0.95rem;
+  }
+
+  .ruin-controls {
+    display: grid;
+    gap: 1rem;
+    margin-block: 1.25rem;
+  }
+
+  @media (min-width: 45rem) {
+    .ruin-controls {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .ruin-control {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  .ruin-control label {
+    font-size: 0.9rem;
+    font-weight: 600;
+  }
+
+  .ruin-control input[type="range"] {
+    width: 100%;
+    min-height: 1.75rem;
+  }
+
+  .ruin-control output {
+    font-variant-numeric: tabular-nums;
+    font-size: 0.95rem;
+  }
+
+  .ruin-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-block-end: 1.25rem;
+  }
+
+  .ruin-buttons button {
+    padding: 0.5rem 0.9rem;
+    border: 1px solid currentColor;
+    border-radius: 0.3rem;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    font-size: 0.95rem;
+    cursor: pointer;
+  }
+
+  .ruin-buttons button:hover,
+  .ruin-buttons button:focus-visible {
+    border-width: 2px;
+    padding: calc(0.5rem - 1px) calc(0.9rem - 1px);
+  }
+
+  .ruin-strip {
+    display: grid;
+    grid-template-columns: repeat(20, 1fr);
+    gap: 2px;
+    margin-block-end: 1.25rem;
+    max-width: 22rem;
+  }
+
+  .ruin-strip:empty {
+    display: none;
+  }
+
+  .ruin-strip span {
+    aspect-ratio: 1;
+    border: 1px solid currentColor;
+    border-radius: 1px;
+  }
+
+  .ruin-strip span[data-alive="yes"] {
+    background: currentColor;
+  }
+
+  .ruin-results table {
+    width: 100%;
+    border-collapse: collapse;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .ruin-results caption {
+    margin-block-end: 0.5rem;
+    font-weight: 600;
+    text-align: left;
+  }
+
+  .ruin-results th,
+  .ruin-results td {
+    padding: 0.4rem 0.5rem;
+    border-block-end: 1px solid currentColor;
+    text-align: left;
+  }
+
+  .ruin-note {
+    margin-block-end: 0;
+    color: var(--at-text-secondary, inherit);
+    font-size: 0.95rem;
+  }
+
+  .ruin-empty {
+    margin-block: 0;
+    color: var(--at-text-secondary, inherit);
+  }
+</style>
+
+<script>
+  interface Inputs {
+    rounds: number;
+    p: number;
+    gain: number;
+  }
+
+  function simulate(players: number, { rounds, p, gain }: Inputs) {
+    const survivorMultiple = (1 + gain) ** rounds;
+    let survivors = 0;
+    let firstDeath = 0;
+    const flags: boolean[] = [];
+
+    for (let i = 0; i < players; i++) {
+      let alive = true;
+      let deathRound = 0;
+      for (let r = 1; r <= rounds; r++) {
+        if (Math.random() < p) {
+          alive = false;
+          deathRound = r;
+          break;
+        }
+      }
+      if (alive) survivors++;
+      if (flags.length < 100) flags.push(alive);
+      if (i === 0) firstDeath = deathRound;
+    }
+
+    return {
+      players,
+      survivors,
+      wiped: players - survivors,
+      survivorMultiple,
+      mean: (survivors * survivorMultiple) / players,
+      flags,
+      firstDeath,
+    };
+  }
+
+  const pct = (x: number) => `${(x * 100).toFixed(2)}%`;
+  const mult = (x: number) => `${x.toFixed(2)}×`;
+
+  function init(root: HTMLElement) {
+    if (root.dataset.ruinInit === "yes") return;
+    root.dataset.ruinInit = "yes";
+
+    const q = <T extends HTMLElement>(sel: string) => root.querySelector<T>(sel);
+    const roundsEl = q<HTMLInputElement>('[data-input="rounds"]');
+    const oddsEl = q<HTMLInputElement>('[data-input="odds"]');
+    const gainEl = q<HTMLInputElement>('[data-input="gain"]');
+    const table = q<HTMLTableElement>("[data-table]");
+    const empty = q("[data-empty]");
+    const strip = q("[data-strip]");
+    const caption = q("[data-caption]");
+    const note = q("[data-note]");
+    if (!roundsEl || !oddsEl || !gainEl || !table || !empty || !strip) return;
+
+    const read = (): Inputs => ({
+      rounds: Number(roundsEl.value),
+      p: 1 / Number(oddsEl.value),
+      gain: Number(gainEl.value) / 100,
+    });
+
+    const cell = (name: string, text: string) => {
+      const el = q(`[data-cell="${name}"]`);
+      if (el) el.textContent = text;
+    };
+
+    const showInputs = () => {
+      const { rounds, p } = read();
+      const out = (name: string, text: string) => {
+        const el = q(`[data-out="${name}"]`);
+        if (el) el.textContent = text;
+      };
+      out("rounds", String(rounds));
+      out("odds", `1 in ${Number(oddsEl.value)} (${pct(p)})`);
+      out("gain", `+${Number(gainEl.value)}%`);
+    };
+
+    const render = (players: number) => {
+      const inputs = read();
+      const r = simulate(players, inputs);
+      const { rounds, p, gain } = inputs;
+
+      const survivalTheory = (1 - p) ** rounds;
+
+      empty.setAttribute("hidden", "");
+      table.removeAttribute("hidden");
+      if (caption) {
+        caption.textContent = `${r.players.toLocaleString()} player${
+          r.players === 1 ? "" : "s"
+        }, ${rounds} bet${rounds === 1 ? "" : "s"} each`;
+      }
+
+      cell(
+        "survived-sim",
+        `${r.survivors.toLocaleString()} (${pct(r.survivors / r.players)})`,
+      );
+      cell("survived-theory", pct(survivalTheory));
+      cell("wiped-sim", `${r.wiped.toLocaleString()} (${pct(r.wiped / r.players)})`);
+      cell("wiped-theory", pct(1 - survivalTheory));
+      cell("survivor-sim", r.survivors > 0 ? mult(r.survivorMultiple) : "no survivors");
+      cell("survivor-theory", mult((1 + gain) ** rounds));
+      cell("mean-sim", mult(r.mean));
+      cell("mean-theory", mult(((1 - p) * (1 + gain)) ** rounds));
+
+      strip.textContent = "";
+      if (r.players > 1) {
+        for (const alive of r.flags) {
+          const cellEl = document.createElement("span");
+          cellEl.dataset.alive = alive ? "yes" : "no";
+          strip.append(cellEl);
+        }
+      }
+
+      if (note) {
+        if (r.players === 1) {
+          note.textContent =
+            r.survivors === 1
+              ? `This player survived all ${rounds} bets and holds ${mult(
+                  r.survivorMultiple,
+                )}. Run it again.`
+              : `This player was wiped out on bet ${r.firstDeath} of ${rounds}. Run it again.`;
+        } else {
+          note.textContent = `Every survivor holds exactly ${mult(
+            r.survivorMultiple,
+          )}, because the only thing that varies between players is whether they were wiped out. There is no skill gradient here to explain the winners.${
+            r.players >= 100 ? " The squares above are the first 100 players; filled means still holding." : ""
+          }`;
+        }
+      }
+    };
+
+    for (const el of [roundsEl, oddsEl, gainEl]) {
+      el.addEventListener("input", showInputs);
+    }
+
+    root.addEventListener("click", (event) => {
+      const button = (event.target as HTMLElement)?.closest<HTMLElement>("[data-run]");
+      if (!button) return;
+      render(Number(button.dataset.run));
+    });
+
+    showInputs();
+  }
+
+  function initAll() {
+    for (const el of document.querySelectorAll<HTMLElement>("[data-ruin-sim]")) init(el);
+  }
+
+  initAll();
+  document.addEventListener("astro:page-load", initAll);
+</script>
