@@ -30,7 +30,8 @@ mind one second later, you would receive the bid. So the instant you bought, the
 position was worth
 
 ```
-$40.00 − $39.96  =  $0.04  per unit,  or  0.04 / 40.00  =  0.10%
+$40.00 − $39.96  =  $0.04 per unit
+        $0.04 / $40.00  =  0.10%
 ```
 
 less than you paid. Nobody was wrong about anything. There was no news.
@@ -48,7 +49,8 @@ So a complete round trip — in and out, one decision, no opinion about the
 market — costs
 
 ```
-0.10%  +  0.10%  =  0.20%,  or  $20.00  on  $10,000
+0.10%  +  0.10%  =  0.20%
+                 =  $20.00 on $10,000
 ```
 
 We just did this in class: the whole room opened a position and closed it inside

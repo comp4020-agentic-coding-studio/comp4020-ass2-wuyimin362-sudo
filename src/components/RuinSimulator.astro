@@ -114,9 +114,9 @@ const uid = `ruin-${Math.random().toString(36).slice(2, 8)}`;
   .ruin {
     margin-block: 2rem;
     padding: 1.25rem;
-    border: 1px solid currentColor;
-    border-radius: 0.5rem;
-    background: var(--at-bg-alt, rgba(127, 127, 127, 0.08));
+    border: 1px solid var(--at-border, currentColor);
+    border-radius: var(--at-border-radius, 0.5rem);
+    background: var(--at-bg-elevated, var(--at-bg-alt, rgba(127, 127, 127, 0.08)));
   }
 
   .ruin-lede {
@@ -150,7 +150,8 @@ const uid = `ruin-${Math.random().toString(36).slice(2, 8)}`;
 
   .ruin-control input[type="range"] {
     width: 100%;
-    min-height: 1.75rem;
+    min-height: 2.75rem;
+    accent-color: var(--at-accent, currentColor);
   }
 
   .ruin-control output {
@@ -166,9 +167,10 @@ const uid = `ruin-${Math.random().toString(36).slice(2, 8)}`;
   }
 
   .ruin-buttons button {
+    min-height: 2.75rem;
     padding: 0.5rem 0.9rem;
-    border: 1px solid currentColor;
-    border-radius: 0.3rem;
+    border: 1px solid var(--at-border, currentColor);
+    border-radius: var(--at-border-radius, 0.3rem);
     background: transparent;
     color: inherit;
     font: inherit;
@@ -178,8 +180,8 @@ const uid = `ruin-${Math.random().toString(36).slice(2, 8)}`;
 
   .ruin-buttons button:hover,
   .ruin-buttons button:focus-visible {
-    border-width: 2px;
-    padding: calc(0.5rem - 1px) calc(0.9rem - 1px);
+    border-color: var(--at-accent, currentColor);
+    color: var(--at-accent, inherit);
   }
 
   .ruin-strip {
@@ -219,7 +221,7 @@ const uid = `ruin-${Math.random().toString(36).slice(2, 8)}`;
   .ruin-results th,
   .ruin-results td {
     padding: 0.4rem 0.5rem;
-    border-block-end: 1px solid currentColor;
+    border-block-end: 1px solid var(--at-border, currentColor);
     text-align: left;
   }
 

@@ -33,7 +33,8 @@ Meanwhile **B** has gone from $10.00 to $18.00. It has risen 80% while yours
 rose 10%. You rotate. Sell A at the bid of $43.96:
 
 ```
-250 × $43.96  =  $10,990,  less $5 fee  =  $10,985
+250 × $43.96   =  $10,990
+  less $5 fee  =  $10,985
 ```
 
 and buy B at the ask of $18.00:
