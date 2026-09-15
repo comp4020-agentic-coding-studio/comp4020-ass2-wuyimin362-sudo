@@ -66,6 +66,9 @@ export const collections = {
           .string()
           .regex(/^\/decks\/[a-z0-9-]+\/$/)
           .optional(),
+        // The one named way to lose money this week owns. Every week has
+        // exactly one; week 12 repeats week 1's on purpose.
+        mode: z.string().trim().min(1),
       })
       .loose(),
   }),
