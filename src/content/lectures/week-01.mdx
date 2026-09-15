@@ -1,0 +1,123 @@
+---
+title: Ruin
+description:
+  The course's opening claim, which you will not believe today — that a bet
+  worth taking, taken repeatedly, ends at zero.
+week: 1
+mode: ruin
+date: 2027-02-22
+teachers:
+  - marisol-quaye
+slides: /decks/week-01/
+related:
+  - sessions/01-opening-positions
+---
+
+import RuinSimulator from "../../components/RuinSimulator.astro";
+
+Here is a bet. Nineteen times in twenty it pays you 10%. One time in twenty it
+takes everything you staked.
+
+Work out what it is worth on average. The multiplier per bet is
+
+```
+(19/20) × 1.10  +  (1/20) × 0  =  0.95 × 1.10  =  1.045
+```
+
+so the bet pays 4.5% per go. That is a good bet. Take it forty times and the
+average outcome is
+
+```
+1.045^40  =  5.82
+```
+
+nearly six times your money. Every part of that is correct and you should not
+take the bet.
+
+## Why not
+
+To finish forty bets you have to survive all forty, and the chance of that is
+
+```
+(19/20)^40  =  0.95^40  =  0.1285
+```
+
+Thirteen people in a hundred. The other eighty-seven are at zero, and zero is
+not a bad result you recover from next semester — it is the end of the sequence,
+because nothing multiplies back up out of nothing.
+
+Both numbers are true at once, and reconciling them is the whole of this
+lecture. A hundred people take the bet forty times. Between them they end with
+582 units of whatever they started with, which is the 5.82 average. But only
+12.85 of them are holding any of it, so the survivors are sitting on
+
+```
+1.10^40  =  45.26
+```
+
+about forty-five times their stake each. Note that this is not an average over a
+range of good outcomes: a survivor is someone the loss never happened to, so
+every survivor multiplied their stake by 1.10 exactly forty times and they all
+hold the identical amount. There is no spread among the winners to explain.
+
+Those thirteen will be asked how they did it. They will have answers. The
+answers will be sincere and they will be worthless, because the eighty-seven did
+the same thing.
+
+<RuinSimulator />
+
+This is called gambler's ruin. The name is old and the arithmetic above is all
+of it.
+
+## What the course does with this
+
+The claim is not that you should never take a bet with a chance of total loss.
+It is narrower and harder to escape: **if you take such a bet repeatedly, the
+expected value of the bet stops being the thing that decides your outcome.** The
+number that decides it is how many times you are exposed, and that number is
+usually a choice you made without noticing you were making it.
+
+Drag the first slider above to see the shape of that. At one bet you survive 95%
+of the time. At forty you are down to 12.85%. At a hundred it is 0.59%, and
+nothing about the bet changed — only how often you accepted it.
+
+Watch the bottom two rows while you drag, because they move in opposite
+directions. At forty bets the average outcome is 5.82 times your stake. At a
+hundred bets it is
+
+```
+1.045^100  =  81.59
+```
+
+**The bet has become fourteen times more attractive by the only measure most
+people use, and your chance of being there to collect has fallen from 12.85% to
+0.59%.** Both of those are consequences of the same act: accepting it more
+often. There is no version of this where the average is the thing to look at.
+
+You will spend eleven weeks finding out that the chance of total loss is not
+exotic. It is in the fees, in the position size, in the borrowed money, in the
+door that turns out to be locked. Each of the next ten weeks names one of them
+and shows you the arithmetic.
+
+## You do not believe this yet
+
+That is expected, and it is planned for. Today the argument is abstract: it is
+about a bet nobody offered you, in a sequence you have not run. There is no
+reason it should land.
+
+So in this session you will open a position, under the
+[bounded-loss policy](/policies/), and file an
+[opening record](/records/) you are not allowed to revise. It stays open until
+week 12. Over the following ten weeks each lecture will describe one specific
+way for it to die, and you will check whether that one is happening to you.
+
+In week 12 this lecture runs again — the same slides, the same two numbers —
+and by then you will be sitting in a room where roughly nine people made money
+and can tell you why. That is the version of this argument that works.
+
+## Before you leave today
+
+Open something, and write down the four answers on the
+[records page](/records/) before you do. The fourth question is the one people
+leave blank, and blank is a permitted answer in week 1. It is worth noticing
+that it is week 1.
