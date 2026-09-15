@@ -1,18 +1,29 @@
 ---
 import ContentLayout from "astro-theme-university/layouts/ContentLayout.astro";
+import { withBase } from "astro-theme-university/url";
 import SessionsGrid from "../../components/SessionsGrid.astro";
 import { sessionLabels, siteConfig } from "../../site-config";
 ---
 
 <ContentLayout
   title={sessionLabels.plural}
-  description={`The twelve-week teaching schedule: what happens in each ${sessionLabels.singular.toLowerCase()}, what to prepare, and what leaves the room.`}
+  description="Four checkpoints rather than a weekly meeting: the semester has four moments where something has to leave the room."
   {...siteConfig}
 >
   <p>
-    The internal collection and URL stay <code>sessions</code>. Set the visible
-    singular and plural names once in <code>src/site-config.ts</code> and use
-    the language your course deserves everywhere readers see it.
+    There is no weekly tutorial. The lectures run every week and the work happens
+    in your own log; these four sessions exist because each one produces something
+    that cannot be produced alone.
+  </p>
+  <p>
+    The first opens your position and seals a record you may not revise. The
+    second makes you defend one number out loud before the deadline that depends
+    on it. The third takes a rule off you in writing, so that it cannot be
+    adjusted after you see how it does. The fourth pools the whole class's
+    numbers, which is the one artefact no individual student can make.
+  </p>
+  <p>
+    Bring the <a href={withBase("/records/")}>log</a> to all four.
   </p>
   <SessionsGrid />
 </ContentLayout>

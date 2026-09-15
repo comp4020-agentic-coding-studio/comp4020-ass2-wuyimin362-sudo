@@ -2,48 +2,80 @@
 import Card from "astro-theme-university/components/Card.astro";
 import CardGrid from "astro-theme-university/components/CardGrid.astro";
 import ContentLayout from "astro-theme-university/layouts/ContentLayout.astro";
-import heroImage from "../assets/images/hero-home.avif";
+import { withBase } from "astro-theme-university/url";
 import { courseMeta } from "../course-config";
 import { sessionLabels, siteConfig } from "../site-config";
-
-// STARTER_CONTENT: replace the hero artwork and its alt text below, then
-// remove this comment.
 ---
 
 <ContentLayout
-  title={`${courseMeta.code}: ${courseMeta.title}`}
+  title={`${courseMeta.code} — ${courseMeta.title}`}
   description={courseMeta.description}
-  heroImage={heroImage}
-  heroImageAlt="A lecture theatre reduced to flat gold and black shapes, rows of seats sweeping past the frame, in a two-ink risograph print"
   {...siteConfig}
 >
   <ul class="course-tags" aria-label="Course tags">
     {courseMeta.tags.map((tag) => <li>{tag}</li>)}
   </ul>
 
-  <!-- STARTER_CONTENT: replace the authored page below, then remove this comment. -->
   <h2>What you will do</h2>
   <p>
-    Say what a student spends their time on — the making, reading, arguing or
-    measuring that fills the weeks. Name the artefact they walk out with.
+    In the first session you open a position and file four answers you are not
+    allowed to revise. The position stays open until the last week.
+  </p>
+  <p>
+    Each week after that names one mechanism by which money is lost, derives it
+    in front of you, and asks you to check your own position against it. Some of
+    the mechanisms you can commit deliberately; the rest have to be handed to you
+    by the world, and the course is explicit about which is which. You keep a
+    <a href={withBase("/records/")}>position log</a> throughout, because a loss
+    you cannot reconstruct is worth nothing here.
+  </p>
+  <p>
+    Twice you write it up: once for a single loss, accounted for to the cent, and
+    once for the whole semester as a decomposition. What you leave with is an
+    itemised ledger of your own decisions.
+  </p>
+
+  <h2>What this course does not do</h2>
+  <p>
+    It does not teach you to make money, and it does not imply that the attempt
+    would work. Every mechanism on the syllabus is a way to lose, every worked
+    example ends lower than it started, and the final week's argument is that a
+    student who finished the semester ahead has learned nothing from having done
+    so.
+  </p>
+  <p>
+    The losses are real and they are bounded. Paper positions are the default;
+    real money is an opt-in track with a hard cap, and positions that can cost
+    you more than you put in are not permitted. The
+    <a href={withBase("/policies/")}>bounded-loss policy</a> is a course rule,
+    not a caution, and it is worth reading before the first session.
   </p>
 
   <h2>Who it is for</h2>
   <p>
-    Say who this is aimed at and what they need to already know. Be specific
-    enough that someone can rule themselves in or out without emailing you.
+    Someone who has never held a security. No finance is assumed, no statistics
+    beyond arithmetic, and every number on the site is one you can reproduce from
+    the inputs printed beside it.
+  </p>
+  <p>
+    If you already trade, this course has nothing to tell you about what to buy.
+    It may still be the first time anyone has asked you to total the counterfactual
+    column.
   </p>
 
   <h2>Where to go next</h2>
   <CardGrid columns={2}>
+    <Card title="Lectures" href="/lectures/">
+      <p>Every week, and the one named failure mode it owns.</p>
+    </Card>
     <Card title={sessionLabels.plural} href="/sessions/">
-      <p>The weekly schedule and what happens in each teaching session.</p>
+      <p>The four checkpoints: opening, crit, midpoint, close.</p>
     </Card>
     <Card title="Assessment" href="/assessments/">
-      <p>What is marked, what it is worth, and when it is due.</p>
+      <p>One loss accounted for, then the semester decomposed.</p>
     </Card>
-    <Card title="People" href="/people/">
-      <p>Who teaches the course and how to reach them.</p>
+    <Card title="Policies" href="/policies/">
+      <p>What the loss requirement is, and what caps it.</p>
     </Card>
   </CardGrid>
 </ContentLayout>
