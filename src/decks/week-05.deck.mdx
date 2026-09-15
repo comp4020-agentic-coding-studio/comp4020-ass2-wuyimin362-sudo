@@ -1,0 +1,218 @@
+---
+title: Leverage
+description:
+  Week 5 — the one failure mode this course refuses to let you buy, and the
+  derivation that explains the refusal.
+---
+
+{/* _class: impact */}
+
+# Leverage
+
+Week 5
+
+---
+
+{/* _class: centered */}
+
+## Every other week, you go and do the thing
+
+## This week you may not
+
+---
+
+## The policy
+
+Real-money positions are **long-only and fully paid**.
+
+You own the thing. The most you can lose is what you paid.
+
+That rule exists because of one number.
+
+---
+
+## Start with last week's position
+
+```
+610 units of B at $18.00  =  $10,980
+```
+
+Your own money.
+
+---
+
+## Now borrow the same again
+
+```
+1,220 units at $18.00  =  $21,960
+
+   your money          =  $10,980
+   borrowed            =  $10,980
+```
+
+---
+
+## Your equity
+
+What is left after repaying the loan:
+
+```
+equity  =  1,220P − $10,980
+```
+
+At $18.00 that is $10,980. As it should be.
+
+---
+
+## The lender is watching one number
+
+**Maintenance margin.** Keep equity above some
+
+fraction of the position's value, or it is closed for you.
+
+Take 25%.
+
+---
+
+## Solve for the price
+
+```
+(1,220P − 10,980) / 1,220P  =  0.25
+
+     1,220P − 10,980        =  305P
+
+                     915P   =  10,980
+```
+
+---
+
+{/* _class: impact */}
+
+# P = $12.00
+
+---
+
+## Not a price you chose
+
+Not a price you were warned about.
+
+Not a price at which you have any say.
+
+Three inputs, one of them a fraction in a document you did not read.
+
+---
+
+## Now suppose B does this
+
+```
+$18.00  →  $11.50  →  $14.00
+```
+
+---
+
+## Unleveraged
+
+You hold 610 units the whole way.
+
+```
+610 × $14.00  =  $8,540
+```
+
+Down. **And still holding.**
+
+---
+
+## Leveraged
+
+Closed out at $12.00 on the way down.
+
+```
+1,220 × $12.00 − $10,980  =  $3,660
+```
+
+The move from $12 to $14 happened to somebody else.
+
+---
+
+## But you would have guessed
+
+B fell 22.2%. Twice the exposure, twice the loss:
+
+```
+$10,980 × (1 − 2 × 0.222)  =  $6,101
+```
+
+You have **$3,660**.
+
+---
+
+{/* _class: impact */}
+
+# The missing $2,441
+
+is not the size of the fall.
+
+It is the shape of it.
+
+---
+
+## It happens without borrowing too
+
+```
+0.50 × 1.50  =  0.75
+```
+
+Down 25% after two moves that sound like they cancel.
+
+To get back from 0.50 to 1.00 the price needs **+100%**, not +50%.
+
+---
+
+## And if B keeps falling
+
+```
+1,220P  =  $10,980   →   P = $9.00
+```
+
+At $9.00 your equity is zero.
+
+---
+
+{/* _class: impact */}
+
+# Below $9.00 you owe money
+
+you never deposited.
+
+---
+
+## At $8.00
+
+```
+position   1,220 × $8.00  =   $9,760
+loan                      =  $10,980
+                             ─────────
+you owe                        $1,220
+```
+
+On top of having lost everything you put in.
+
+---
+
+## Unleveraged, at $9.00
+
+```
+610 × $9.00  =  $5,490
+```
+
+A bad week. **And yours.**
+
+---
+
+{/* _class: centered */}
+
+## A $20 cap is not a cap
+
+## if the instrument can send you a bill
+
+So we derive the $12.00, and forbid you from paying to experience it.
