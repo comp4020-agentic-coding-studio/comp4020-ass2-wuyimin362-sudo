@@ -83,6 +83,19 @@ describe("the curriculum holds its shape", () => {
     expect(total).toBe(100);
   });
 
+  // Week 12 re-reads week 1 with the other ten weeks behind it, and the site
+  // makes that structural rather than editorial: the closing lecture points at
+  // the opening lecture's deck file instead of carrying a copy that can drift.
+  // One edited frontmatter line breaks the claim while everything still builds.
+  it("closes the loop by pointing week 12 at week 1's deck", () => {
+    const deckFor = (week: number) =>
+      byType("lectures").find((lecture) => lecture.meta?.week === week)?.meta?.slides;
+
+    const opening = deckFor(1);
+    expect(typeof opening === "string" && opening.length > 0, "week 1 links no deck").toBe(true);
+    expect(deckFor(12), "week 12 does not re-use week 1's deck").toBe(opening);
+  });
+
   it("carries at least one real deck, linked from its lecture and built", () => {
     const linked = byType("lectures")
       .map((lecture) => lecture.meta?.slides)

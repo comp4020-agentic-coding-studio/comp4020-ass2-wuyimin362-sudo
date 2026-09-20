@@ -48,8 +48,8 @@ $10,980 across five positions of $2,196, falling 33%, 29%, 31%, 30% and 32% —
 an average fall of 31%:
 
 ```
-0.67 + 0.71 + 0.69 + 0.70 + 0.68  =  3.45
-$2,196 × 3.45                     =  $7,576
+0.67+0.71+0.69+0.70+0.68  =  3.45
+$2,196 × 3.45             =  $7,576
 ```
 
 And one single position falling by that same average 31%:

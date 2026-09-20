@@ -39,8 +39,9 @@ Suppose comparable things change hands at around fifteen times what they earn in
 a year. Your position is 610 units of B at $18.00. Then
 
 ```
-implied earnings  =  $18.00 / 15
-                  =  $1.20 per unit per year
+implied earnings
+  =  $18.00 / 15
+  =  $1.20 per unit per year
 ```
 
 and across the position

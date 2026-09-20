@@ -49,8 +49,8 @@ Now ask where those five positions are held. For almost everyone the answer is
 one account at one broker. So:
 
 ```
-instrument    $2,196 / $10,980  =   20%
-counterparty $10,980 / $10,980  =  100%
+instrument    $2,196 / $10,980 =   20%
+counterparty $10,980 / $10,980 =  100%
 ```
 
 Twenty percent in any one business, and every dollar of it with one firm.

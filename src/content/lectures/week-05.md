@@ -48,10 +48,10 @@ above some fraction of the position's value, or the position is closed for you.
 Take 25%:
 
 ```
-       (1,220P − 10,980) / 1,220P  =  0.25
-        1,220P − 10,980            =  305P
-                          915P     =  10,980
-                             P     =  $12.00
+(1,220P − 10,980) / 1,220P  =  0.25
+ 1,220P − 10,980            =  305P
+                      915P  =  10,980
+                         P  =  $12.00
 ```
 
 **$12.00.** Not a price you chose, not a price you were warned about, and not a
@@ -73,7 +73,8 @@ holding:
 **Leveraged.** You were closed out at $12.00 on the way down:
 
 ```
-equity  =  1,220 × $12.00 − $10,980  =  $3,660
+equity  =  1,220 × $12.00 − $10,980
+        =  $3,660
 ```
 
 and the move from $12.00 to $14.00 happened to somebody else.

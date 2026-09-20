@@ -40,7 +40,8 @@ rose 10%. You rotate. Sell A at the bid of $43.96:
 and buy B at the ask of $18.00:
 
 ```
-$10,980 / $18.00  =  610 units,  plus $5 fee
+$10,980 / $18.00  =  610 units
+       plus $5 fee
 ```
 
 You now hold 610 units of B. Note in passing that you have just paid the week 2
@@ -74,10 +75,10 @@ This matters because of what it becomes. Carry the example to week 12, where A
 is $46.00 and B is $14.00:
 
 ```
-what you chose:     610 × $14.00  =  $8,540
-what you refused:   250 × $46.00  =  $11,500
-                                     ─────────
-gap                                  $2,960
+chose     610 × $14.00  =   $8,540
+refused   250 × $46.00  =  $11,500
+                           ────────
+gap                          $2,960
 ```
 
 A rose 15% over the period. **The market was not the problem.** The $2,960 is
