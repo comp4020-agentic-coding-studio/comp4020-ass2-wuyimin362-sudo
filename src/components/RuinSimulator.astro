@@ -9,17 +9,17 @@ const Heading = headingLevel;
 const uid = `ruin-${Math.random().toString(36).slice(2, 8)}`;
 ---
 
-<section class="ruin" aria-labelledby={`${uid}-title`} data-ruin-sim>
+<section class="figure" data-figure="ruin" aria-labelledby={`${uid}-title`} data-ruin-sim>
   <Heading id={`${uid}-title`}>{title}</Heading>
 
-  <p class="ruin-lede">
+  <p class="figure-lede">
     Every number below is simulated in your browser from the three inputs. The
     theoretical column is the arithmetic from the lecture, so the two should
     converge as you simulate more players.
   </p>
 
-  <div class="ruin-controls">
-    <div class="ruin-control">
+  <div class="figure-controls">
+    <div class="figure-control">
       <label for={`${uid}-rounds`}>How many times you take the bet</label>
       <input
         type="range"
@@ -33,7 +33,7 @@ const uid = `ruin-${Math.random().toString(36).slice(2, 8)}`;
       <output data-out="rounds" for={`${uid}-rounds`}>40</output>
     </div>
 
-    <div class="ruin-control">
+    <div class="figure-control">
       <label for={`${uid}-odds`}>Chance of total loss, as 1 in N</label>
       <input
         type="range"
@@ -47,7 +47,7 @@ const uid = `ruin-${Math.random().toString(36).slice(2, 8)}`;
       <output data-out="odds" for={`${uid}-odds`}>1 in 20 (5.00%)</output>
     </div>
 
-    <div class="ruin-control">
+    <div class="figure-control">
       <label for={`${uid}-gain`}>What it pays the other times</label>
       <input
         type="range"
@@ -62,7 +62,7 @@ const uid = `ruin-${Math.random().toString(36).slice(2, 8)}`;
     </div>
   </div>
 
-  <div class="ruin-buttons">
+  <div class="figure-buttons">
     <button type="button" data-run="1">Run 1 player</button>
     <button type="button" data-run="100">Run 100</button>
     <button type="button" data-run="10000">Run 10,000</button>
@@ -70,8 +70,8 @@ const uid = `ruin-${Math.random().toString(36).slice(2, 8)}`;
 
   <div class="ruin-strip" data-strip aria-hidden="true"></div>
 
-  <div class="ruin-results" data-results aria-live="polite">
-    <p class="ruin-empty" data-empty>No players simulated yet.</p>
+  <div class="figure-results" data-results aria-live="polite">
+    <p class="figure-empty" data-empty>No players simulated yet.</p>
 
     <table data-table hidden>
       <caption data-caption></caption>
@@ -106,84 +106,14 @@ const uid = `ruin-${Math.random().toString(36).slice(2, 8)}`;
       </tbody>
     </table>
 
-    <p class="ruin-note" data-note></p>
+    <p class="figure-note" data-note></p>
   </div>
 </section>
 
 <style>
-  .ruin {
-    margin-block: 2rem;
-    padding: 1.25rem;
-    border: 1px solid var(--at-border, currentColor);
-    border-radius: var(--at-border-radius, 0.5rem);
-    background: var(--at-bg-elevated, var(--at-bg-alt, rgba(127, 127, 127, 0.08)));
-  }
-
-  .ruin-lede {
-    margin-block-start: 0;
-    color: var(--at-text-secondary, inherit);
-    font-size: 0.95rem;
-  }
-
-  .ruin-controls {
-    display: grid;
-    gap: 1rem;
-    margin-block: 1.25rem;
-  }
-
-  @media (min-width: 45rem) {
-    .ruin-controls {
-      grid-template-columns: repeat(3, 1fr);
-    }
-  }
-
-  .ruin-control {
-    display: flex;
-    flex-direction: column;
-    gap: 0.35rem;
-  }
-
-  .ruin-control label {
-    font-size: 0.9rem;
-    font-weight: 600;
-  }
-
-  .ruin-control input[type="range"] {
-    width: 100%;
-    min-height: 2.75rem;
-    accent-color: var(--at-accent, currentColor);
-  }
-
-  .ruin-control output {
-    font-variant-numeric: tabular-nums;
-    font-size: 0.95rem;
-  }
-
-  .ruin-buttons {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    margin-block-end: 1.25rem;
-  }
-
-  .ruin-buttons button {
-    min-height: 2.75rem;
-    padding: 0.5rem 0.9rem;
-    border: 1px solid var(--at-border, currentColor);
-    border-radius: var(--at-border-radius, 0.3rem);
-    background: transparent;
-    color: inherit;
-    font: inherit;
-    font-size: 0.95rem;
-    cursor: pointer;
-  }
-
-  .ruin-buttons button:hover,
-  .ruin-buttons button:focus-visible {
-    border-color: var(--at-accent, currentColor);
-    color: var(--at-accent, inherit);
-  }
-
+  /* Panel, controls, buttons and results table are shared with the other
+     interactive figure and live in src/styles/course.css. Only the survivor
+     strip is particular to this one. */
   .ruin-strip {
     display: grid;
     grid-template-columns: repeat(20, 1fr);
@@ -204,36 +134,6 @@ const uid = `ruin-${Math.random().toString(36).slice(2, 8)}`;
 
   .ruin-strip span[data-alive="yes"] {
     background: currentColor;
-  }
-
-  .ruin-results table {
-    width: 100%;
-    border-collapse: collapse;
-    font-variant-numeric: tabular-nums;
-  }
-
-  .ruin-results caption {
-    margin-block-end: 0.5rem;
-    font-weight: 600;
-    text-align: left;
-  }
-
-  .ruin-results th,
-  .ruin-results td {
-    padding: 0.4rem 0.5rem;
-    border-block-end: 1px solid var(--at-border, currentColor);
-    text-align: left;
-  }
-
-  .ruin-note {
-    margin-block-end: 0;
-    color: var(--at-text-secondary, inherit);
-    font-size: 0.95rem;
-  }
-
-  .ruin-empty {
-    margin-block: 0;
-    color: var(--at-text-secondary, inherit);
   }
 </style>
 

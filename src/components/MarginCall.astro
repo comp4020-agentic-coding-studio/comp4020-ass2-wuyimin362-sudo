@@ -1,0 +1,246 @@
+---
+interface Props {
+  title?: string;
+  headingLevel?: "h2" | "h3";
+}
+
+const { title = "Find your own $12.00", headingLevel = "h2" } = Astro.props;
+const Heading = headingLevel;
+const uid = `margin-${Math.random().toString(36).slice(2, 8)}`;
+---
+
+<section class="figure" data-figure="margin" aria-labelledby={`${uid}-title`} data-margin-calc>
+  <Heading id={`${uid}-title`}>{title}</Heading>
+
+  <p class="figure-lede">
+    Your own money is $10,980 and you buy at $18.00, as above. Everything else
+    is yours to move. Watch the liquidation price climb toward the price you
+    paid as you add leverage — that is the whole of this week in one number.
+  </p>
+
+  <div class="figure-controls">
+    <div class="figure-control">
+      <label for={`${uid}-lev`}>How much you borrow, as a multiple</label>
+      <input type="range" id={`${uid}-lev`} data-input="lev" min="10" max="50" step="1" value="20" />
+      <output data-out="lev" for={`${uid}-lev`}>2.0× — $10,980 borrowed</output>
+    </div>
+
+    <div class="figure-control">
+      <label for={`${uid}-margin`}>Maintenance margin the lender requires</label>
+      <input type="range" id={`${uid}-margin`} data-input="margin" min="5" max="45" step="1" value="25" />
+      <output data-out="margin" for={`${uid}-margin`}>25%</output>
+    </div>
+
+    <div class="figure-control">
+      <label for={`${uid}-low`}>The lowest the price actually went</label>
+      <input type="range" id={`${uid}-low`} data-input="low" min="400" max="1800" step="25" value="1150" />
+      <output data-out="low" for={`${uid}-low`}>$11.50</output>
+    </div>
+
+    <div class="figure-control">
+      <label for={`${uid}-now`}>Where the price is today</label>
+      <input type="range" id={`${uid}-now`} data-input="now" min="400" max="2600" step="25" value="1400" />
+      <output data-out="now" for={`${uid}-now`}>$14.00</output>
+    </div>
+  </div>
+
+  <div class="figure-results" aria-live="polite">
+    <p class="figure-headline" data-headline></p>
+
+    <table>
+      <caption data-caption></caption>
+      <thead>
+        <tr>
+          <th scope="col">Measure</th>
+          <th scope="col">Unleveraged</th>
+          <th scope="col" data-head-lev>Leveraged</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th scope="row">Units held</th>
+          <td data-cell="units-flat"></td>
+          <td data-cell="units-lev"></td>
+        </tr>
+        <tr>
+          <th scope="row">Borrowed</th>
+          <td>nothing</td>
+          <td data-cell="debt"></td>
+        </tr>
+        <tr>
+          <th scope="row">Closed out at</th>
+          <td>never</td>
+          <td data-cell="liq"></td>
+        </tr>
+        <tr>
+          <th scope="row">Fall you survive</th>
+          <td>any</td>
+          <td data-cell="fall"></td>
+        </tr>
+        <tr>
+          <th scope="row">You owe money below</th>
+          <td>never</td>
+          <td data-cell="zero"></td>
+        </tr>
+        <tr>
+          <th scope="row">What you have today</th>
+          <td data-cell="out-flat"></td>
+          <td data-cell="out-lev"></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p class="figure-note" data-note></p>
+  </div>
+</section>
+
+<script>
+  // Own money and entry price are the lecture's, so the defaults reproduce the
+  // worked example exactly: 2:1 at a 25% maintenance margin liquidates at
+  // $12.00, and the price dipping to $11.50 before recovering to $14.00 leaves
+  // the leveraged position on $3,660 against the unleveraged $8,540.
+  const OWN = 10980;
+  const ENTRY = 18;
+
+  // units  N = L·OWN / ENTRY          debt  D = OWN(L − 1)
+  // closed out when equity/position = m, i.e. (N·P − D) / N·P = m
+  //   →  P = ENTRY(L − 1) / (L(1 − m))
+  // equity reaches zero when N·P = D
+  //   →  P = ENTRY(L − 1) / L
+  const liquidationPrice = (lev: number, margin: number) =>
+    lev <= 1 ? 0 : (ENTRY * (lev - 1)) / (lev * (1 - margin));
+  const zeroEquityPrice = (lev: number) => (lev <= 1 ? 0 : (ENTRY * (lev - 1)) / lev);
+
+  const money = (x: number) =>
+    `$${x.toLocaleString("en-AU", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+  const whole = (x: number) =>
+    `$${Math.round(x).toLocaleString("en-AU")}`;
+
+  function init(root: HTMLElement) {
+    if (root.dataset.marginInit === "yes") return;
+    root.dataset.marginInit = "yes";
+
+    const q = <T extends HTMLElement>(sel: string) => root.querySelector<T>(sel);
+    const levEl = q<HTMLInputElement>('[data-input="lev"]');
+    const marginEl = q<HTMLInputElement>('[data-input="margin"]');
+    const lowEl = q<HTMLInputElement>('[data-input="low"]');
+    const nowEl = q<HTMLInputElement>('[data-input="now"]');
+    const headline = q("[data-headline]");
+    const note = q("[data-note]");
+    const caption = q("[data-caption]");
+    const headLev = q("[data-head-lev]");
+    if (!levEl || !marginEl || !lowEl || !nowEl || !headline || !note) return;
+
+    const cell = (name: string, text: string) => {
+      const el = q(`[data-cell="${name}"]`);
+      if (el) el.textContent = text;
+    };
+    const out = (name: string, text: string) => {
+      const el = q(`[data-out="${name}"]`);
+      if (el) el.textContent = text;
+    };
+
+    const render = () => {
+      const lev = Number(levEl.value) / 10;
+      const margin = Number(marginEl.value) / 100;
+      const low = Number(lowEl.value) / 100;
+      const now = Number(nowEl.value) / 100;
+
+      const unitsLev = (lev * OWN) / ENTRY;
+      const unitsFlat = OWN / ENTRY;
+      const debt = OWN * (lev - 1);
+      const liq = liquidationPrice(lev, margin);
+      const zero = zeroEquityPrice(lev);
+      const survivable = Math.max(0, (ENTRY - liq) / ENTRY);
+
+      // Above 1/m the lender would not open it: your equity starts below the
+      // fraction they require. At exactly 1/m it opens and dies on the first
+      // tick down, which is a real position and is priced as one.
+      const impossible = lev > 1 && liq > ENTRY;
+      const closedOut = lev > 1 && !impossible && low <= liq;
+
+      const flatToday = unitsFlat * now;
+      const levToday = closedOut ? margin * unitsLev * liq : unitsLev * now - debt;
+
+      out("lev", `${lev.toFixed(1)}× — ${whole(debt)} borrowed`);
+      out("margin", `${Number(marginEl.value)}%`);
+      out("low", money(low));
+      out("now", money(now));
+
+      if (caption) {
+        caption.textContent = `${whole(OWN)} of your own money, bought at ${money(ENTRY)}`;
+      }
+      if (headLev) headLev.textContent = `At ${lev.toFixed(1)}×`;
+
+      headline.innerHTML =
+        lev <= 1
+          ? "Borrow nothing and there is no price at which somebody else closes your position."
+          : impossible
+            ? `<strong>Nobody will open this for you.</strong> At ${lev.toFixed(
+                1,
+              )}× your equity is ${(100 / lev).toFixed(
+                1,
+              )}% of the position, already below the ${Number(
+                marginEl.value,
+              )}% the lender requires.`
+            : `Somebody else closes your position at <strong>${money(
+                liq,
+              )}</strong> — a fall of ${(survivable * 100).toFixed(1)}%.`;
+
+      cell("units-flat", `${Math.round(unitsFlat).toLocaleString("en-AU")}`);
+      cell("units-lev", impossible ? "—" : `${Math.round(unitsLev).toLocaleString("en-AU")}`);
+      cell("debt", impossible ? "—" : whole(debt));
+      cell("liq", lev <= 1 ? "never" : money(liq));
+      cell("fall", lev <= 1 ? "any" : `${(survivable * 100).toFixed(1)}%`);
+      cell("zero", lev <= 1 ? "never" : money(zero));
+      cell("out-flat", whole(flatToday));
+      cell("out-lev", impossible ? "—" : whole(Math.max(0, levToday)));
+
+      // Every closed-out figure assumes the forced sale fills at exactly the
+      // liquidation price. Week 6 is about why that is the most optimistic
+      // assumption available, and a position being sold into a falling market
+      // is the case where it is least true.
+      const fillCaveat =
+        " This assumes the forced sale fills at exactly that price, which is the best case — see week 6.";
+
+      if (lev <= 1) {
+        note.textContent =
+          "At 1× you own what you paid for. The price can do anything and the decision to sell stays yours.";
+      } else if (impossible) {
+        note.textContent = `A maintenance margin of ${Number(
+          marginEl.value,
+        )}% caps the leverage anyone will extend at ${(1 / margin).toFixed(
+          1,
+        )}×. Past that there is no position to have, which is the lender protecting the lender.`;
+      } else if (closedOut) {
+        const missed = now - liq;
+        note.textContent =
+          (missed > 0
+            ? `The price reached ${money(low)}, so you were closed out at ${money(
+                liq,
+              )} on the way down. It is ${money(now)} today — that ${money(
+                missed,
+              )} per unit happened to somebody else, and unleveraged you would still be holding.`
+            : `The price reached ${money(low)}, so you were closed out at ${money(
+                liq,
+              )} on the way down and the position was settled for you.`) + fillCaveat;
+      } else {
+        note.textContent = `The price never reached ${money(
+          liq,
+        )}, so nobody closed this for you. Leverage cost you nothing here — which is the version of this that makes people do it again.`;
+      }
+    };
+
+    for (const el of [levEl, marginEl, lowEl, nowEl]) {
+      el.addEventListener("input", render);
+    }
+    render();
+  }
+
+  function initAll() {
+    for (const el of document.querySelectorAll<HTMLElement>("[data-margin-calc]")) init(el);
+  }
+
+  initAll();
+  document.addEventListener("astro:page-load", initAll);
+</script>
