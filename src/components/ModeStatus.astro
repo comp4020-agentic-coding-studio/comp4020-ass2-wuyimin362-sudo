@@ -1,0 +1,59 @@
+---
+interface Props {
+  /** A rationed mode has to be handed to you by the world, so it is taught and
+   *  never assessed. Six of the eleven are not rationed. */
+  rationed?: boolean;
+  /** Spell out what the label means. On the listing the prose above the grid
+   *  already explains it; a lecture page has nothing nearby that does. */
+  gloss?: boolean;
+}
+
+const { rationed = false, gloss = false } = Astro.props;
+
+// Every lecture's title is its failure mode, so naming the mode again here
+// would print the same word twice. What the title cannot carry is whether the
+// mode is one you can commit or one the world has to hand you, and that is the
+// distinction deciding what the assessments may ask for.
+const label = rationed ? "rationed" : "committable";
+const meaning = rationed
+  ? "handed to you, never assessed"
+  : "yours to commit, and assessable";
+---
+
+<span class:list={["mode-status", { rationed }]}>
+  <span class="mode-status-label">{label}</span>
+  {gloss && <span class="mode-status-gloss">{meaning}</span>}
+</span>
+
+<style>
+  .mode-status {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.45rem;
+    vertical-align: baseline;
+  }
+
+  .mode-status-label {
+    padding: 0.15em 0.55em;
+    border: 1px solid var(--at-accent);
+    border-radius: 0.2em;
+    color: var(--at-accent);
+    font-family: var(--at-font-mono, monospace);
+    font-size: 0.78em;
+    line-height: 1.5;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  /* The two read apart without relying on colour: a rationed mode is drawn
+     with a broken rule, which is also what it is. */
+  .mode-status.rationed .mode-status-label {
+    border-style: dashed;
+  }
+
+  .mode-status-gloss {
+    color: var(--at-text-secondary);
+    font-size: 0.82em;
+  }
+</style>

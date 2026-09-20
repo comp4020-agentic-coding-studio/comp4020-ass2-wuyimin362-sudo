@@ -5,6 +5,7 @@ description:
   gone anyway.
 week: 11
 mode: counterparty risk
+rationed: true
 date: 2027-05-17
 teachers:
   - idris-fenn

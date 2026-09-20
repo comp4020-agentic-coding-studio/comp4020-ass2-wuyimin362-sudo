@@ -5,6 +5,7 @@ description:
   a room that now has a ledger.
 week: 12
 mode: ruin
+rationed: true
 date: 2027-05-24
 teachers:
   - marisol-quaye

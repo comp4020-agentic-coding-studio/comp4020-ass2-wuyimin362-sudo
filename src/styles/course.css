@@ -1,0 +1,63 @@
+/* Every fenced block on this site is arithmetic — there is no code in this
+   course — so they are treated as figures rather than as code samples: flush
+   left rule, tabular figures, and the line spacing of a column of numbers. */
+
+.at-main pre.astro-code {
+  border-inline-start: 3px solid var(--at-accent);
+  border-start-start-radius: 0;
+  border-end-start-radius: 0;
+  padding-block: 1.1rem;
+  padding-inline: 1.4rem;
+  line-height: 1.75;
+  font-variant-numeric: tabular-nums;
+  overflow-x: auto;
+}
+
+/* The result of a sum should not be the part that falls off a phone. */
+.at-main pre.astro-code code {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Marking criteria, the log format, the simulator's convergence table: every
+   table here is figures, so none of them should be proportionally spaced. */
+.at-main table {
+  font-variant-numeric: tabular-nums;
+}
+
+/* The line under a lecture title carrying its date and its one failure mode.
+   It is the only place the week's whole job is stated, so it is set apart
+   from the prose rather than reading as the first paragraph of it. */
+.lecture-masthead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.5rem 1rem;
+  margin-block: 0 1.5rem;
+  padding-block-end: 1rem;
+  border-block-end: 1px solid var(--at-divider, var(--at-border));
+}
+
+.lecture-masthead .lecture-date {
+  font-variant-numeric: tabular-nums;
+  color: var(--at-text-secondary);
+}
+
+.lecture-masthead .lecture-slides {
+  margin-inline-start: auto;
+}
+
+@media (max-width: 34rem) {
+  .lecture-masthead .lecture-slides {
+    margin-inline-start: 0;
+  }
+}
+
+/* The week/date line and the committable-or-rationed marker share a row, so
+   the twelve cards read as a column of statuses rather than twelve paragraphs. */
+.lecture-card-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem 1rem;
+}

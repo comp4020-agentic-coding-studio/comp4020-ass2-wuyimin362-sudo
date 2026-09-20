@@ -19,6 +19,7 @@ export async function getStaticPaths() {
 
 const { assessment } = Astro.props;
 const { Content } = await render(assessment);
+import "../../styles/course.css";
 ---
 
 <ContentLayout

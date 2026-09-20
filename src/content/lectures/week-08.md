@@ -5,6 +5,7 @@ description:
   smaller than you think.
 week: 8
 mode: correlation collapse
+rationed: true
 date: 2027-04-26
 teachers:
   - idris-fenn

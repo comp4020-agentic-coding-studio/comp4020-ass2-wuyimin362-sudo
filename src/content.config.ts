@@ -69,6 +69,9 @@ export const collections = {
         // The one named way to lose money this week owns. Every week has
         // exactly one; week 12 repeats week 1's on purpose.
         mode: z.string().trim().min(1),
+        // A rationed mode has to be handed to you by the world, so it is
+        // taught and never assessed. Six of the eleven are not rationed.
+        rationed: z.coerce.boolean().default(false),
       })
       .loose(),
   }),

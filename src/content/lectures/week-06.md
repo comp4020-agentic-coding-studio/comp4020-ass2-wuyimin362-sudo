@@ -5,6 +5,7 @@ description:
   opens. This is the week the course tells you it does not.
 week: 6
 mode: illiquidity
+rationed: true
 date: 2027-03-29
 teachers:
   - idris-fenn

@@ -5,6 +5,7 @@ description:
   the arithmetic that explains the refusal.
 week: 5
 mode: leverage
+rationed: true
 date: 2027-03-22
 teachers:
   - marisol-quaye

@@ -50,6 +50,30 @@ describe("the curriculum holds its shape", () => {
     expect(distinct.size, "two weeks share a failure mode").toBe(11);
   });
 
+  // The lectures page tells students six mechanisms are theirs to commit and
+  // the other five have to be handed to them, and the assessments are built on
+  // that split: only the six can be required. Nothing else notices if a week is
+  // added without classifying it, at which point the prose is quietly false.
+  it("keeps six committable modes and five rationed ones", () => {
+    const lectures = byType("lectures");
+    const modesWhere = (rationed: boolean) =>
+      new Set(
+        lectures
+          .filter((lecture) => (lecture.meta?.rationed === true) === rationed)
+          .map((lecture) => lecture.meta?.mode),
+      );
+
+    const committable = modesWhere(false);
+    const rationed = modesWhere(true);
+
+    expect(committable.size, "the lectures page promises six committable modes").toBe(6);
+    expect(rationed.size, "the lectures page promises five rationed modes").toBe(5);
+
+    for (const mode of committable) {
+      expect(rationed.has(mode), `${mode} is marked both committable and rationed`).toBe(false);
+    }
+  });
+
   it("assesses exactly 100% of the course", () => {
     const total = byType("assessments").reduce(
       (sum, assessment) => sum + Number(assessment.meta?.weight ?? 0),
