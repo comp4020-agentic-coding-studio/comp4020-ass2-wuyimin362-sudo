@@ -9,21 +9,19 @@ email: idris.fenn@slop.university
 contact:
   Ask in a session, with the log in front of you. Email only when a question
   cannot wait for the next one.
-photo: ./idris-fenn.avif
-photoAlt: A stylised portrait of a person facing the viewer, flat gold and black shapes on warm cream, in a two-ink risograph print
 ---
 
 Idris lectures the weeks that turn on a decision rather than a derivation, and
 runs the crits.
 
-His actual job is reconciliation. In every crit he will ask you to reproduce one
+Their actual job is reconciliation. In every crit they will ask you to reproduce one
 figure in your report from other figures in your report, and most of the time it
 does not reconcile on the first attempt — a fee was omitted, a price was the last
 one on the screen rather than the one transacted at, a percentage was taken of
 the wrong denominator. None of that is carelessness; it is what happens when
 somebody writes down a number they already believe.
 
-He would rather find it in week 6 than have a marker find it in week 12, which
+They would rather find it in week 6 than have a marker find it in week 12, which
 is the entire reason the crit sits before the deadline instead of after it.
 
 Bring the log. Not slides about the log, not a summary — the rows, with the side
